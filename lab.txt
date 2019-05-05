@@ -1,0 +1,235 @@
+Topics from 1910-01-sdc LAB
+***This doesn't include any relevant terminology, for the terms and definitions you can refer to the module itself online.***
+Wait for lab status to get ready
+#1 Creation of virtual machine
+•	Login to chrome, using windows authentication.
+•	Click on home icon, select VMs and Templates
+•	Expand the vcsa-01a.corp.local tree to expose the "DataCenter Site A" object
+•	Click on "DataCenter Site A"
+•	Click "Create a new virtual machine" to start the new virtual machine wizard
+•	Select cluster, storage(datastore) and make other relevant changes
+•	Click finish
+
+#2 Editing the settings of Virtual machine/ setting up image for virtual machine
+•	From the Actions menu, select Edit Settings...
+•	From the CD/DVD drive 1 drop-down menu, select Datastore ISO File. This will open a file explorer to select that file.
+•	Expand the directories under vmimges and then click on tools-isoimages.
+•	Select windows.iso in the Content pane
+•	Click OK.
+•	Click the Connected check box next to CD/DVD drive 1.
+•	Click OK.
+
+#3 Cloning virtual machine
+•	Select "VMs and Templates" from the Home menu
+•	Click the drop down arrows to expand the inventory tree
+•	Right-click the Virtual Machine "TinyLinux-01"
+•	Select "Clone"
+•	Select "Clone to Template"
+•	In the Clone Virtual Machine to Template wizard, provide a name for the Template "TinyLinux Template"
+•	Keep datacenter as site A
+•	Click next choose cluster and click datastore according to availability.
+•	Click Finish.
+•	Now go to datacentre and create a new vm and choose from template         
+
+#4 deploying a clone temple
+•	Select the Template, "TinyLinux Template"
+•	Select the "Getting Started" tab
+•	Under Basic Tasks in the action pane, click "Deploy to a new virtual machine"
+•	Enter name, datacentre and click next
+•	Select cluster, storage and finish
+
+#5 Using tags and user defined labels
+•	Click the Home Menu
+•	Select "Tags and Custom Attributes" to create tag categories and tags.
+•	Click "New Category"
+•	Enter "web tier" for the Category Name.
+•	Keep the default "One tag per object"
+•	Click "OK"
+•	Click 'New Tag' to create
+•	To create a new tag enter "Web Server version 2"
+•	Click the tag category "web tier" in the drop down box.
+•	Select "OK"
+•	To assign tags go to vm and template select a vm and right click and select assign tag
+
+#6 Configuring High availability in cluster
+•	First, go to the "Home" button
+•	Select "Hosts and Clusters"
+•	Click "Cluster Site A"
+•	Click "Actions" to bring up the drop down menu.
+•	Click "Settings"
+•	Click "vSphere Availability" under "Services" to bring up the settings for high
+•	availability. Note that you may need to scroll to the top of the list.
+•	Click "Edit"
+•	Check the box "Turn ON vSphere HA"
+•	Click 'Failures and Responses'.
+•	From the VM Monitoring drop-down list, select 'VM and Application
+•	Monitoring'.
+•	Click 'Admission Control '.
+•	In the 'Define host failover capacity by' drop-down menu, select 'Cluster
+•	resource percentage'.
+•	Click 'Heartbeat Datastores'.
+•	Select 'Automatically select datastores accessible from the host'.
+•	Click 'OK' to enable vSphere HA.
+
+#7 Enabling DRS
+•	Click on the 'Configure' tab to start the process of enabling Distributed Resource
+•	Scheduler.
+•	Click 'vSphere DRS'.
+•	Click on the 'Edit' button to modify the DRS settings.
+•	Verify that the "Turn ON vSphere DRS" box is checked. 
+•	Click the drop down box and select "Fully Automated"
+•	Click "OK"
+•	Click the 'Summary' tab to display the current status of the cluster
+
+#8 Creating Alarms
+•	Click on the 'Actions' menu and select 'Alarms > New Alarm Definition'.
+•	Enter "Virtual Machine CPU Ready"
+•	Click "Next" to move to the Triggers section.
+•	Click the "+" to add a new trigger action.
+•	Scroll down the list and select the "VM CPU Ready Time" and keep the default conditions.
+•	Click "Next"
+•	Click the "+" to add a new action
+•	Click the "Migrate VM" action
+•	Click the Resource Pool; Host; Priority in the Configuration column. Once you click it, it will change to Click to Configure. Click this link to configure the Resource Pool settings for when the VM migrates.
+
+#9 Editing alarms
+•	Click the "Home" icon, Click the "Events" menu item
+•	Select the vCenter "vcsa-01a.corp.local"
+•	Click the "Monitor" tab
+•	Click the "Alarm Definitions" tab.
+•	Use the filter to find the "Host CPU usage" alarm definition by typing "cpu" in the
+•	search field and press Enter.
+•	Select the "Host CPU usage" alarm
+•	Click the "Edit" button
+•	Click on the "Triggers" portion of the alarm.
+•	Click "80%" usage for 5 minutes to trigger the alarm.
+•	click "Next"
+•	Click the "+" to add a new action.
+•	scroll on the list and click "Enter maintenance mode"
+•	Set the "Alert State Change" to "Once"
+•	Set the "Alert State Change" to "Once"
+•	Click "Finish"
+
+#10 Create a graph of relevant
+•	Select esx-01a.corp.local (available in the lowest level only)
+•	Click the Monitor tab
+•	Click the Performance tab
+•	Select Realtime from the Time Range drop-down menu.
+
+#11 Create a standard switch
+•	Under vcsa-01a.corp.local, expand Datacenter Site A and then Cluster Site A.
+•	Next, right-click on esx-02a.corp.local in the Navigator and select 'Add Networking'.
+•	select Standard Switch and click Next
+•	choose New Standard Switch and click Next.
+•	Select 'Unused Adapters' and click the green '+' button.
+•	Click 'Next to continue.
+•	Do not change change the VLAN ID; leave this set to None (0).
+•	To check goto config > network> virtual switch
+
+#12 Creating a distributed switch
+•	In the Navigator, right-click on Datacenter Site A and select Distributed Switch --> New Distributed Switch.
+•	Keep the default name for the new distributed switch then click Next.
+•	Make sure Distributed Switch: 6.5.0 is selected and click Next.
+•	To add host to Dswitch
+•	Go to networking tab (of the navigator)
+•	Select Dswitch and right click and add and manage Host
+•	Select task=> add host. Select host click + . select all the local clustrers
+•	Manage physical network adapters select the nic and assign uplink to them for both cluster
+•	Click next next
+•	To verify go back to lowest level host and cluster and go to goto config > network> virtual switch
+
+#13 Create an nfs datastore
+•	Select "Datacenter Site A"
+•	Select "Actions"
+•	Select "Storage"
+•	Select "New Datastore"
+•	Click the "Next" button to advance the wizard to the "Type" step.
+•	Verify type - NFS - is selected, and click "Next"
+•	Verify NFS Version - NFS 3 - is selected, and click "Next"
+•	Give the new Datastore a name, "ds-site-a-nfs02"
+•	Enter the Folder "/mnt/NFS02" in the NFS Share Details area.
+•	Enter the Server "10.10.20.60" in the NFS Share Details area and click "Next"
+•	Select the "check box" to include all hosts and select "Next".
+•	To check go to datacentre site A’s Datastore tab
+
+#14 Create a vmfs datastore
+•	Select "Datacenter Site A"
+•	Select "Actions"
+•	Select "Storage"
+•	Select "New Datastore"
+•	Verify type - VMFS - is selected, and click "Next"
+•	Give the new Datastore a name, "ds-iscsi02"
+•	Select a Host to view the accessible disks/LUNs and select esx-01a.corp.local in the drop-down box.
+•	Click "Next"
+•	To check go to datacentre site A’s Datastore tab
+
+#15 Roles
+•	Home>administration>roles
+•	+ for creating (name + privileges selection)
+•	Pencil for edit (for name and permission)
+•	Contact for clone (need to rename)
+•	X for deleting
+
+
+Topics from 1901-03-cmp LAB
+
+Live Instance: Connected to the small running vSphere environment in the lab.
+There isn't a large inventory of objects in this instance but it allows us to interact with vCenter.
+• Historical Instance: Running a 30-minute time loop of data that was captured in the past. This instance has a much larger inventory of objects but since it is not currently connected to a vCenter, we can't perform any actions here.
+• Blue Medora Management Packs: Also running in historical mode, this instance has a large number of management packs from Blue Medora that allow us to see information from adjacent infrastructure (storage and physical servers) as well as operating system and application information.
+
+#15 Loging to vRealize Operations – Live Instance
+•	Open google chrome
+•	Live Instance
+•	VMware Identiy Manager in the type of login
+•	User hol pwd VMware1!
+•	Sign in
+
+
+#15 Reclaim resources
+•	Open google chrome
+•	Click the vRealize Operations - Historical Instance
+•	choose local users, Enter user credentials. Username is admin and password is VMware1! and login
+•	Select Reclaim on the Quick Start Page
+•	Click Reclaim for the datacentre
+•	Select from the given action, power off, delete or snapshot, accordingly.
+•	Power off = remove which are off for long time(forgotten project)
+•	Idle vms= best option is to power them off to reclaim cpu and memory
+•	Snapshots= remove if very old, as they will no longer be used in future
+
+#15 Reclaim resources for oversized
+•	Open google chrome
+•	Click the vRealize Operations - Historical Instance
+•	choose local users, Enter user credentials. Username is admin and password is VMware1! and login
+•	Select Reclaim on the Quick Start Page
+•	Click Reclaim for the datacentre
+•	Go to oversized
+•	Select vm and resize, if necessary go to Overview in Quick start to analyse
+
+
+#16 Workload scenario for capacity planning
+•	Open google chrome
+•	Click the vRealize Operations - Live Instance
+•	Select VMware Identity Manager, USER: hol PASSWORD: VMware1!
+•	Click the Plan link to go into workload, Scenario Name = New Rainpole Project
+•	2. Select the Datacenter RegionA01 (vcsa-01a.corp.local)
+•	3. Allow this workload to be on Any cluster
+•	build out the configuration
+•	Select ADVANCED CONFIGURATION
+•	Click the radio button for 'Thin'.
+•	Click Save so we can come back to this scenario.
+ 
+
+Topics from 1911-06-cmp LAB
+#17 Accessing the API explorer
+•	Appliance handles calls to the underlying VMware appliance
+•	CIS Common Infrastructure Services, handles calls involving tagging
+•	Content handles calls involves the Content Library
+•	vAPI vSphere API, handles calls regarding the API endpoint
+•	• vCenter handles calls to involving the vCenterLaunch Google Chrome by clicking the "Chrome"
+•	change the url to, https://vcsa-01a.corp.local/apiexplorer
+•	Select vCenter from API Drop Down.
+•	Click on Cluster
+•	Click on /vcenter/cluster
+•	Scroll all the way down until you see the "Try it out button"
+•	Try out the API from the ex
